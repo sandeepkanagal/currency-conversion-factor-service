@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.Optional;
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +21,7 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @RestController
 public class CurrencyConversionFactorController {
-
+	
 	@Autowired
 	private Environment environment;
 	
