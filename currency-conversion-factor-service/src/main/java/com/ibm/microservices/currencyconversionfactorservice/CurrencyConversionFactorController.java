@@ -1,6 +1,7 @@
 package com.ibm.microservices.currencyconversionfactorservice;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -38,15 +39,26 @@ public class CurrencyConversionFactorController {
 		ExchangeValue existingExchangeValue = repository.findByFromAndTo(exchangeValue.getFrom(), exchangeValue.getTo());		
 		if(existingExchangeValue==null) {
 			repository.save(exchangeValue);
+			/*
+			 * URI location = ServletUriComponentsBuilder .fromCurrentRequest()
+			 * .path("/from/{from}/to/{to}")
+			 * .buildAndExpand(exchangeValue.getFrom(),exchangeValue.getTo()).toUri();
+			 */
 			URI location =  ServletUriComponentsBuilder
 					.fromCurrentRequest()
-					.path("/from/{from}/to/{to}")
-					.buildAndExpand(exchangeValue.getFrom(),exchangeValue.getTo()).toUri();
-				
+					.path("/")
+					.buildAndExpand().toUri();
+			
 				return ResponseEntity.created(location).build();
+				
 		}
 		throw new ConversionFactorExistsException("Conversion factor from "+exchangeValue.getFrom()+" to "+exchangeValue.getTo()+" already exists !!");
 		
+	}
+	
+	@GetMapping("/currency-conversion-factor")
+	public List<ExchangeValue> findall(){
+		return repository.findAll();
 	}
 	
 	@PostMapping("/update-currency-conversion-factor")
